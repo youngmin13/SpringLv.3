@@ -29,7 +29,7 @@ public class UserController {
         try {
             return userService.signup(requestDto);
         } catch (Exception e) {
-            return new ApiResultDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return new ApiResultDto(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -38,7 +38,7 @@ public class UserController {
         try {
             return userService.login(requestDto, response);
         } catch (Exception e) {
-            return new ApiResultDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return new ApiResultDto(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

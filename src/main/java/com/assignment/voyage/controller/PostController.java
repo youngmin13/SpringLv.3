@@ -3,8 +3,10 @@ package com.assignment.voyage.controller;
 import com.assignment.voyage.dto.ApiResultDto;
 import com.assignment.voyage.dto.PostRequestDto;
 import com.assignment.voyage.dto.PostResponseDto;
+import com.assignment.voyage.security.UserDetailsImpl;
 import com.assignment.voyage.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,15 +50,15 @@ public class PostController {
     //  - 제목, 작성 내용을 수정하고 수정된 게시글을 Client 로 반환하기
     // 생각해보니, 제목이랑 내용을 수정해야하니까 수정기능에는 아이디 (변하지 않는 값) 을 넣는 것이 더 나을 듯
     @PutMapping("/posts/{id}")
-    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto postRequestDto, HttpServletRequest request) throws Exception {
-        return postService.updatePost(id, postRequestDto, request);
+    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto postRequestDto, HttpServletRequest request, @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
+        return postService.updatePost(id, postRequestDto, request, userDetails);
     }
 
     //  5. 선택한 게시글 삭제 API
     //  - 토큰을 검사한 후, 유효한 토큰이면서 해당 사용자가 작성한 게시글만 삭제 가능
     //  - 선택한 게시글을 삭제하고 Client 로 성공했다는 메시지, 상태코드 반환하기
     @DeleteMapping("/posts/{title}")
-    public ApiResultDto deletePost(@PathVariable String title, HttpServletRequest request) throws Exception {
-        return postService.deletePost(title, request);
+    public ApiResultDto deletePost(@PathVariable String title, HttpServletRequest request, @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
+        return postService.deletePost(title, request, userDetails);
     }
 }

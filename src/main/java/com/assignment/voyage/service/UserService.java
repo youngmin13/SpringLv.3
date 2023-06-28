@@ -54,7 +54,7 @@ public class UserService {
         // 사용자 등록
         User user = new User(username, password, role);
         userRepository.save(user);
-        return new ApiResultDto("회원가입 성공", HttpStatus.OK.value());
+        return new ApiResultDto("회원가입 성공", HttpStatus.OK);
     }
 
     @Transactional(readOnly = true)
@@ -75,6 +75,6 @@ public class UserService {
         // JWT 생성 및 쿠키에 저장 후 Response 객체에 추가
         String token = jwtUtil.createToken(user.getUsername(), user.getRole());
         jwtUtil.addJwtToCookie(token, res);
-        return new ApiResultDto("로그인 성공", HttpStatus.OK.value());
+        return new ApiResultDto("로그인 성공", HttpStatus.OK);
     }
 }
